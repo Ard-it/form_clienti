@@ -1,83 +1,113 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modulo Assistenza Robatech</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richiesta Assistenza Cliente</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body { background-color: #e8f5e9; color: #1b5e20; }
-    .container { max-width: 800px; margin-top: 2rem; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .highlight { color: red; font-weight: bold; }
-    .section-title { font-weight: 600; margin-top: 1.5rem; }
+    body {
+      background-color: #e8f5e9;
+      color: #1b5e20;
+    }
+    .container {
+      max-width: 800px;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+    .highlight {
+      color: red;
+      font-weight: bold;
+    }
+    .robaplus-highlight {
+      background-color: #dcedc8;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2 class="mb-4">Modulo Richiesta Assistenza</h2>
+    <h2 class="mb-4">Modulo di Richiesta Assistenza</h2>
+     <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="tracciabilita" value="TRC123456" />
+      <input type="hidden" name="motivazione" value="Richiesta intervento" />
 
-    <p class="highlight">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
-
-    <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
-        <label class="form-label">Società richiedente</label>
-        <input type="text" name="societa" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Partita IVA</label>
-        <input type="text" name="piva" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Telefono</label>
-        <input type="text" name="telefono" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Referente</label>
-        <input type="text" name="referente" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Località</label>
-        <input type="text" name="localita" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Indirizzo</label>
-        <input type="text" name="indirizzo" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Luogo dell’intervento (se diverso)</label>
-        <input type="text" name="luogo" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email cliente per conferma invio</label>
-        <input type="email" name="emailCliente" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Numero di tracciabilità</label>
-        <input type="text" name="tracciabilita" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Note</label>
-        <textarea name="note" class="form-control" maxlength="500"></textarea>
-      </div>
-
-      <div class="section-title">Hai un contratto <span style="background-color: yellow; padding: 0 5px;">Robaplus</span>?</div>
-      <div class="mb-3">
-        <input type="checkbox" id="robaplus" name="robaplus" value="si">
-        <label for="robaplus"> Sì, possiedo un contratto Robaplus</label>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Codice contratto (se disponibile)</label>
-        <input type="text" name="codiceRobaplus" class="form-control">
+        <label for="societa" class="form-label">Società richiedente</label>
+        <input type="text" class="form-control" id="societa" name="societa" required />
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Carica foto o video (max 20MB)</label>
-        <input type="file" name="uploads" accept="image/*,video/*" class="form-control" multiple>
+        <label for="indirizzo" class="form-label">Indirizzo</label>
+        <input type="text" class="form-control" id="indirizzo" name="indirizzo" required />
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Firma digitale</label>
-        <input type="file" name="firma" accept="image/*" class="form-control" required>
+        <label for="localita" class="form-label">Località</label>
+        <input type="text" class="form-control" id="localita" name="localita" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="piva" class="form-label">Partita IVA</label>
+        <input type="text" class="form-control" id="piva" name="piva" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="referente" class="form-label">Referente</label>
+        <input type="text" class="form-control" id="referente" name="referente" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="luogo" class="form-label">Luogo dell’intervento (se diverso)</label>
+        <input type="text" class="form-control" id="luogo" name="luogo" />
+      </div>
+
+      <div class="mb-3">
+        <label for="emailCliente" class="form-label">Email per ricevere conferma invio</label>
+        <input type="email" class="form-control" id="emailCliente" name="emailCliente" required />
+      </div>
+
+      <div class="robaplus-highlight">Hai un contratto Robaplus?</div>
+      <div class="mb-3">
+        <input type="checkbox" id="robaplus" name="robaplus" />
+        <label for="robaplus">Sì, ho un contratto Robaplus</label>
+        <input type="text" class="form-control mt-2" name="codiceRobaplus" placeholder="Inserisci codice contratto" />
+      </div>
+
+      <p class="highlight mt-2">
+        In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.
+      </p>
+
+      <div class="mb-3">
+        <label for="note" class="form-label">Note aggiuntive</label>
+        <textarea class="form-control" id="note" name="note" maxlength="500"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="firma" class="form-label">Carica la firma digitale (obbligatoria)</label>
+        <input type="file" class="form-control" id="firma" name="firma" accept="image/*" required />
+      </div>
+
+      <a href="https://robatechitalia.sharepoint.com/sites/DocumentiCondivisi/FormTecnici/SERVICE%20REQUEST%20FORM%202023_1.pdf" 
+         target="_blank" 
+         class="btn btn-outline-primary mt-2">
+        Scarica modulo da firmare e timbrare manualmente
+      </a>
+
+      <div class="mb-3 mt-4">
+        <label for="uploads" class="form-label">Allega foto o video (max 20 MB)</label>
+        <input type="file" class="form-control" id="uploads" name="uploads" multiple />
       </div>
 
       <button type="submit" class="btn btn-success">Invia Richiesta</button>
