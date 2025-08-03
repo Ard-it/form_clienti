@@ -1,37 +1,54 @@
-<form action="http://TUO_IP:3000/submit-form" method="POST" enctype="multipart/form-data">
-  <!-- Dati anagrafici -->
-  <input type="text" name="societa" required>
-  <input type="text" name="indirizzo" required>
-  <input type="text" name="localita" required>
-  <input type="text" name="piva" required>
-  <input type="text" name="telefono" required>
-  <input type="text" name="referente" required>
-  <input type="text" name="luogo">
-  <input type="email" name="emailCliente">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modulo Assistenza Robatech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body { background-color: #e8f5e9; color: #1b5e20; }
+    .container { max-width: 700px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .form-label { font-weight: bold; }
+    .important { color: red; font-weight: bold; }
+    .highlight { background-color: #fff3cd; padding: 0.5rem; border-radius: 5px; margin-bottom: 1rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3 class="mb-4">Modulo di Richiesta Assistenza</h3>
 
-  <!-- Motivazione e tracciabilità -->
-  <select name="motivazione" required>
-    <option>Richiesta intervento</option>
-    <option>Chiarimento tecnico</option>
-    <option>Preventivo</option>
-    <option>Altro</option>
-  </select>
-  <input type="text" name="tracciabilita" required>
+    <div class="highlight">Hai un contratto Robaplus? Inserisci il codice contratto qui sotto:</div>
+    <div class="mb-3">
+      <label class="form-label">Codice contratto Robaplus (facoltativo)</label>
+      <input type="text" name="robaplus" class="form-control"/>
+    </div>
 
-  <!-- Tariffario (solo visualizzazione, non ha name) -->
+    <p class="important">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
 
-  <!-- Note -->
-  <textarea name="note" maxlength="500"></textarea>
+    <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label class="form-label">Firma del cliente (obbligatoria)</label>
+        <input type="file" name="firma" class="form-control" accept="image/*" required />
+      </div>
 
-  <!-- Upload firma (obbligatorio) -->
-  <label>Firma digitale (obbligatoria):</label>
-  <input type="file" name="firma" accept="image/*,.pdf" required>
+      <div class="mb-3">
+        <label class="form-label">Carica eventuali foto o video (max 20MB)</label>
+        <input type="file" name="uploads" class="form-control" multiple />
+      </div>
 
-  <!-- Upload foto/video (opzionale) -->
-  <label>Allega foto o video (max 20MB):</label>
-  <input type="file" name="uploads" multiple accept="image/*,video/*,.pdf">
+      <div class="mb-3">
+        <label class="form-label">Note aggiuntive (max 500 caratteri)</label>
+        <textarea name="note" class="form-control" maxlength="500" rows="4"></textarea>
+      </div>
 
-  <!-- Invia -->
-  <button type="submit">Invia Richiesta</button>
-</form>
+      <div class="mb-3">
+        <label class="form-label">Email del cliente (per conferma)</label>
+        <input type="email" name="emailCliente" class="form-control" required />
+      </div>
+
+      <button type="submit" class="btn btn-success">Invia Richiesta</button>
+    </form>
+  </div>
+</body>
+</html>
 
