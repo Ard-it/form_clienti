@@ -1,100 +1,106 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modulo Richiesta Assistenza</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modulo Cliente - Robatech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    body { background-color: #e8f5e9; color: #1b5e20; }
-    .container { max-width: 800px; padding: 20px; background: white; border-radius: 10px; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .important { color: red; font-weight: bold; margin-top: 10px; }
-    .highlight { background-color: #fff59d; padding: 5px 10px; border-radius: 5px; display: inline-block; margin-bottom: 10px; font-weight: bold; }
+    body { background-color: #e8f5e9; color: #1b5e20; padding: 2rem; }
+    .form-container { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .highlight { font-weight: bold; background-color: #dcedc8; padding: 5px 10px; display: inline-block; border-radius: 5px; margin-bottom: 10px; }
+    .text-danger { font-weight: 600; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Modulo Richiesta Assistenza</h2>
-    <form id="assistenzaForm" action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="tracciabilita" id="tracciabilita">
-      <input type="hidden" name="motivazione" id="motivazione">
+    <div class="form-container">
+      <h3 class="mb-4">Modulo Richiesta Assistenza</h3>
+      <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
 
-      <div class="mb-3">
-        <label class="form-label">Società richiedente</label>
-        <input type="text" name="societa" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Indirizzo</label>
-        <input type="text" name="indirizzo" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Località</label>
-        <input type="text" name="localita" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Luogo intervento (se diverso)</label>
-        <input type="text" name="luogo" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">P.IVA</label>
-        <input type="text" name="piva" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Telefono</label>
-        <input type="text" name="telefono" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Persona di riferimento</label>
-        <input type="text" name="referente" class="form-control" required>
-      </div>
+        <div class="mb-3">
+          <label class="form-label">Società richiedente</label>
+          <input type="text" name="societa" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Indirizzo</label>
+          <input type="text" name="indirizzo" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Località</label>
+          <input type="text" name="localita" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Partita IVA</label>
+          <input type="text" name="piva" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Telefono</label>
+          <input type="text" name="telefono" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Referente</label>
+          <input type="text" name="referente" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Luogo dell’intervento (se diverso)</label>
+          <input type="text" name="luogo" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email del cliente (per conferma)</label>
+          <input type="email" name="emailConferma" class="form-control" required />
+        </div>
 
-      <div class="highlight">Hai un contratto Robaplus?</div>
-      <div class="mb-3">
-        <input type="checkbox" id="robaplus" name="robaplus"> <label for="robaplus">Sì</label>
-      </div>
-      <div id="codiceRobaplusField" class="mb-3" style="display: none;">
-        <label class="form-label">Codice contratto Robaplus</label>
-        <input type="text" name="codiceRobaplus" class="form-control">
-      </div>
+        <!-- Highlight Robaplus -->
+        <p class="highlight">Hai un contratto Robaplus?</p>
 
-      <p class="important">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
+        <!-- Nota rossa Garanzia -->
+        <p class="text-danger">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
 
-      <div class="mb-3">
-        <label class="form-label">Firma digitale</label>
-        <input type="file" name="firma" class="form-control" required>
-      </div>
+        <!-- Firma digitale -->
+        <div class="mb-3">
+          <label class="form-label">Firma digitale (upload)</label>
+          <input type="file" name="firma" accept="image/*,application/pdf" class="form-control" />
+        </div>
 
-      <div class="mb-3">
-        <a href="https://robatechitalia.sharepoint.com/sites/Form2023/Shared%20Documents/SERVICE%20REQUEST%20FORM%202023_1.pdf" target="_blank" class="btn btn-outline-secondary">Scarica modulo da firmare manualmente</a>
-      </div>
+        <!-- Link per modulo da firmare -->
+        <div class="mb-3">
+          <a href="https://robatechitalia.sharepoint.com/:b:/r/sites/public/Documenti%20condivisi/SERVICE%20REQUEST%20FORM%202023_1.pdf" target="_blank" class="btn btn-outline-primary">
+            Scarica modulo da firmare e timbrare
+          </a>
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label">Carica foto o video (max 20MB)</label>
-        <input type="file" name="uploads" class="form-control" accept="image/*,video/*" multiple>
-      </div>
+        <!-- Upload altri allegati -->
+        <div class="mb-3">
+          <label class="form-label">Altri allegati (opzionali)</label>
+          <input type="file" name="uploads" multiple class="form-control" />
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label">Email per conferma invio</label>
-        <input type="email" name="emailConferma" class="form-control" required>
-      </div>
+        <!-- Note -->
+        <div class="mb-3">
+          <label class="form-label">Note</label>
+          <textarea name="note" class="form-control" rows="3" maxlength="500"></textarea>
+        </div>
 
-      <div class="mb-3">
-        <label class="form-label">Note aggiuntive (max 500 caratteri)</label>
-        <textarea name="note" class="form-control" maxlength="500"></textarea>
-      </div>
+        <!-- Campi nascosti -->
+        <input type="hidden" name="tracciabilita" id="tracciabilita" />
+        <input type="hidden" name="motivazione" id="motivazione" />
 
-      <button type="submit" class="btn btn-success">Invia Richiesta</button>
-    </form>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Invia Richiesta</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
-    const queryParams = new URLSearchParams(window.location.search);
-    document.getElementById('tracciabilita').value = queryParams.get('tracciabilita') || '';
-    document.getElementById('motivazione').value = queryParams.get('motivazione') || '';
+    // Estrai i parametri dalla URL e inseriscili nei campi nascosti
+    const params = new URLSearchParams(window.location.search);
+    const tracciabilita = params.get('tracciabilita') || '';
+    const motivazione = params.get('motivazione') || '';
 
-    document.getElementById('robaplus').addEventListener('change', function () {
-      document.getElementById('codiceRobaplusField').style.display = this.checked ? 'block' : 'none';
-    });
+    document.getElementById('tracciabilita').value = tracciabilita;
+    document.getElementById('motivazione').value = motivazione;
   </script>
 </body>
 </html>
