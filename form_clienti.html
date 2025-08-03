@@ -34,44 +34,8 @@
 <body>
   <div class="container py-4">
     <h2 class="mb-4">Modulo Richiesta Intervento</h2>
-<form action="http://TUO_IP:3000/submit-form" method="POST" enctype="multipart/form-data">
-  <!-- Dati anagrafici -->
-  <input type="text" name="societa" required>
-  <input type="text" name="indirizzo" required>
-  <input type="text" name="localita" required>
-  <input type="text" name="piva" required>
-  <input type="text" name="telefono" required>
-  <input type="text" name="referente" required>
-  <input type="text" name="luogo">
-  <input type="email" name="emailCliente">
 
-  <!-- Motivazione e tracciabilità -->
-  <select name="motivazione" required>
-    <option>Richiesta intervento</option>
-    <option>Chiarimento tecnico</option>
-    <option>Preventivo</option>
-    <option>Altro</option>
-  </select>
-  <input type="text" name="tracciabilita" required>
-
-  <!-- Tariffario (solo visualizzazione, non ha name) -->
-
-  <!-- Note -->
-  <textarea name="note" maxlength="500"></textarea>
-
-  <!-- Upload firma (obbligatorio) -->
-  <label>Firma digitale (obbligatoria):</label>
-  <input type="file" name="firma" accept="image/*,.pdf" required>
-
-  <!-- Upload foto/video (opzionale) -->
-  <label>Allega foto o video (max 20MB):</label>
-  <input type="file" name="uploads" multiple accept="image/*,video/*,.pdf">
-
-  <!-- Invia -->
-  <button type="submit">Invia Richiesta</button>
-</form>
-
-    <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
+    <form action="/submit-form" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="societa" class="form-label">Società richiedente</label>
         <input type="text" class="form-control" id="societa" name="societa" required>
