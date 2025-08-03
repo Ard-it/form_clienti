@@ -1,96 +1,200 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modulo Assistenza Robatech</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modulo Intervento - Robatech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
+    body { background-color: #e8f5e9; color: #1b5e20; }
+    h2, h4 { color: #1b5e20; }
+    .tariffario td, .tariffario th { vertical-align: middle; }
+    .signature-pad { border: 1px solid #ccc; width: 100%; height: 200px; }
+    .section-title { margin-top: 2rem; margin-bottom: 1rem; }
+    .alert-garanzia {
+      color: #b71c1c;
+      background-color: #ffebee;
+      border-left: 6px solid #f44336;
+      padding: 10px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .alert-robaplus {
       background-color: #e8f5e9;
+      border: 1px solid #2e7d32;
       color: #1b5e20;
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      max-width: 800px;
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 3rem;
-    }
-    h3 {
+      padding: 15px;
+      border-radius: 5px;
       font-weight: bold;
-      margin-bottom: 1.5rem;
-      color: #1b5e20;
-    }
-    .important {
-      color: red;
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    .highlight {
-      background-color: #dcedc8;
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      border-left: 5px solid #4caf50;
-      font-weight: 500;
-    }
-    .form-label {
-      font-weight: 600;
-      color: #1b5e20;
-    }
-    .btn-success {
-      background-color: #4caf50;
-      border: none;
-    }
-    .btn-success:hover {
-      background-color: #388e3c;
+      font-size: 1rem;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h3>Modulo di Richiesta Assistenza Robatech</h3>
+  <div class="container py-4">
+    <h2 class="mb-4">Modulo Richiesta Intervento</h2>
+<form action="http://TUO_IP:3000/submit-form" method="POST" enctype="multipart/form-data">
+  <!-- Dati anagrafici -->
+  <input type="text" name="societa" required>
+  <input type="text" name="indirizzo" required>
+  <input type="text" name="localita" required>
+  <input type="text" name="piva" required>
+  <input type="text" name="telefono" required>
+  <input type="text" name="referente" required>
+  <input type="text" name="luogo">
+  <input type="email" name="emailCliente">
 
-    <div class="highlight">Hai un contratto <strong>Robaplus</strong>? Inserisci il codice contratto qui sotto:</div>
-    <div class="mb-3">
-      <label class="form-label">Codice contratto Robaplus (facoltativo)</label>
-      <input type="text" name="robaplus" class="form-control"/>
-    </div>
+  <!-- Motivazione e tracciabilità -->
+  <select name="motivazione" required>
+    <option>Richiesta intervento</option>
+    <option>Chiarimento tecnico</option>
+    <option>Preventivo</option>
+    <option>Altro</option>
+  </select>
+  <input type="text" name="tracciabilita" required>
 
-    <p class="important">
-      In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito
-      sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.
-    </p>
+  <!-- Tariffario (solo visualizzazione, non ha name) -->
+
+  <!-- Note -->
+  <textarea name="note" maxlength="500"></textarea>
+
+  <!-- Upload firma (obbligatorio) -->
+  <label>Firma digitale (obbligatoria):</label>
+  <input type="file" name="firma" accept="image/*,.pdf" required>
+
+  <!-- Upload foto/video (opzionale) -->
+  <label>Allega foto o video (max 20MB):</label>
+  <input type="file" name="uploads" multiple accept="image/*,video/*,.pdf">
+
+  <!-- Invia -->
+  <button type="submit">Invia Richiesta</button>
+</form>
 
     <form action="http://192.168.1.9:3000/submit-form" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
-        <label class="form-label">Firma del cliente <span class="text-danger">*</span></label>
-        <input type="file" name="firma" class="form-control" accept="image/*" required />
+        <label for="societa" class="form-label">Società richiedente</label>
+        <input type="text" class="form-control" id="societa" name="societa" required>
+      </div>
+      <div class="mb-3">
+        <label for="indirizzo" class="form-label">Indirizzo</label>
+        <input type="text" class="form-control" id="indirizzo" name="indirizzo" required>
+      </div>
+      <div class="mb-3">
+        <label for="localita" class="form-label">Località</label>
+        <input type="text" class="form-control" id="localita" name="localita" required>
+      </div>
+      <div class="mb-3">
+        <label for="piva" class="form-label">Partita IVA</label>
+        <input type="text" class="form-control" id="piva" name="piva" required>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono" required>
+      </div>
+      <div class="mb-3">
+        <label for="referente" class="form-label">Persona di riferimento</label>
+        <input type="text" class="form-control" id="referente" name="referente" required>
+      </div>
+      <div class="mb-3">
+        <label for="luogo" class="form-label">Luogo dell’intervento (fra parentesi se diverso)</label>
+        <input type="text" class="form-control" id="luogo" name="luogo">
+      </div>
+
+      <div class="section-title"><h4>Tariffario</h4></div>
+      <table class="table table-bordered tariffario">
+        <thead>
+          <tr><th>Voce</th><th>Prezzo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Uscita Tecnico</td><td>€100</td></tr>
+          <tr><td>Manodopera (1h)</td><td>€70</td></tr>
+          <tr><td>Spese viaggio</td><td>€30</td></tr>
+          <tr><td>Analisi guasto</td><td>€50</td></tr>
+          <tr><td>Verifica impianto</td><td>€60</td></tr>
+          <tr><td>Intervento urgente</td><td>€120</td></tr>
+          <tr><td>Fornitura ricambi</td><td>Variabile</td></tr>
+          <tr><td>Relazione tecnica</td><td>€40</td></tr>
+          <tr><td>Formazione operatore</td><td>€90</td></tr>
+          <tr><td>Controllo remoto</td><td>€30</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert-garanzia">
+        In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.
+      </div>
+
+      <div class="alert-robaplus">
+        Hai un contratto Robaplus? Inserisci il codice contratto per beneficiare delle condizioni dedicate.
+      </div>
+      <div class="mb-3">
+        <label for="codiceRobaplus" class="form-label">Codice contratto Robaplus</label>
+        <input type="text" class="form-control" id="codiceRobaplus" name="codiceRobaplus">
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Carica eventuali foto o video (max 20MB)</label>
-        <input type="file" name="uploads" class="form-control" multiple />
+        <label for="note" class="form-label">Note aggiuntive (max 500 caratteri)</label>
+        <textarea class="form-control" id="note" name="note" maxlength="500" rows="3"></textarea>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Note aggiuntive (max 500 caratteri)</label>
-        <textarea name="note" class="form-control" maxlength="500" rows="4" placeholder="Inserisci eventuali dettagli..."></textarea>
+        <label for="fotoVideo" class="form-label">Carica foto o video (max 20MB)</label>
+        <input class="form-control" type="file" id="fotoVideo" name="fotoVideo" accept="image/*,video/*" multiple>
       </div>
 
-      <div class="mb-4">
-        <label class="form-label">Email del cliente <span class="text-danger">*</span></label>
-        <input type="email" name="emailCliente" class="form-control" required />
-      </div>
+      <div class="section-title"><h4>Firma</h4></div>
+      <canvas id="firmaCanvas" class="signature-pad"></canvas>
+      <input type="hidden" id="firma" name="firma">
 
-      <div class="d-grid">
-        <button type="submit" class="btn btn-success btn-lg">Invia Richiesta</button>
+      <div class="mt-4">
+        <button type="submit" class="btn btn-success">Invia Richiesta</button>
+        <button type="button" class="btn btn-secondary" onclick="clearSignature()">Cancella Firma</button>
       </div>
     </form>
   </div>
+
+  <script>
+    const canvas = document.getElementById("firmaCanvas");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("mousedown", () => drawing = true);
+    canvas.addEventListener("mouseup", () => {
+      drawing = false;
+      document.getElementById("firma").value = canvas.toDataURL();
+    });
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("touchstart", () => drawing = true);
+    canvas.addEventListener("touchend", () => {
+      drawing = false;
+      document.getElementById("firma").value = canvas.toDataURL();
+    });
+    canvas.addEventListener("touchmove", drawTouch);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function drawTouch(e) {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      draw({
+        offsetX: touch.clientX - rect.left,
+        offsetY: touch.clientY - rect.top,
+      });
+    }
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("firma").value = "";
+    }
+  </script>
 </body>
 </html>
-
