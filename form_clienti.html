@@ -5,19 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Modulo Cliente - Robatech</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://www.google.com/recaptcha/api.js?render=SITE_KEY_RECAPTCHA_V3"></script>
   <style>
     body { background-color: #e8f5e9; color: #1b5e20; padding: 2rem; }
     .form-container { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .highlight { font-weight: bold; background-color: #dcedc8; padding: 5px 10px; display: inline-block; border-radius: 5px; margin-bottom: 10px; }
     .text-danger { font-weight: 600; }
+    #messaggio-risposta { margin-top: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="form-container">
       <h3 class="mb-4">Modulo Richiesta Assistenza</h3>
-      <form action="https://robatech-portale-assistenza.onrender.com/submit-form" method="POST" enctype="multipart/form-data">
 
+      <!-- Messaggio risposta -->
+      <div id="messaggio-risposta"></div>
+
+      <form id="form-clienti" enctype="multipart/form-data">
         <div class="mb-3">
           <label class="form-label">Società richiedente</label>
           <input type="text" name="societa" class="form-control" required />
@@ -51,40 +56,33 @@
           <input type="email" name="emailConferma" class="form-control" required />
         </div>
 
-        <!-- Highlight Robaplus -->
         <p class="highlight">Hai un contratto Robaplus?</p>
-
-        <!-- Nota rossa Garanzia -->
         <p class="text-danger">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
 
-        <!-- Firma digitale -->
         <div class="mb-3">
           <label class="form-label">Firma digitale (upload)</label>
           <input type="file" name="firma" accept="image/*,application/pdf" class="form-control" />
         </div>
 
-        <!-- Link per modulo da firmare -->
         <div class="mb-3">
           <a href="https://robatechitalia.sharepoint.com/:b:/r/sites/public/Documenti%20condivisi/SERVICE%20REQUEST%20FORM%202023_1.pdf" target="_blank" class="btn btn-outline-primary">
             Scarica modulo da firmare e timbrare
           </a>
         </div>
 
-        <!-- Upload altri allegati -->
         <div class="mb-3">
           <label class="form-label">Altri allegati (opzionali)</label>
           <input type="file" name="uploads" multiple class="form-control" />
         </div>
 
-        <!-- Note -->
         <div class="mb-3">
           <label class="form-label">Note</label>
           <textarea name="note" class="form-control" rows="3" maxlength="500"></textarea>
         </div>
 
-        <!-- Campi nascosti -->
         <input type="hidden" name="tracciabilita" id="tracciabilita" />
         <input type="hidden" name="motivazione" id="motivazione" />
+        <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
 
         <div class="d-grid">
           <button type="submit" class="btn btn-success">Invia Richiesta</button>
@@ -94,13 +92,41 @@
   </div>
 
   <script>
-    // Estrai i parametri dalla URL e inseriscili nei campi nascosti
-    const params = new URLSearchParams(window.location.search);
-    const tracciabilita = params.get('tracciabilita') || '';
-    const motivazione = params.get('motivazione') || '';
+    const form = document.getElementById('form-clienti');
+    const messaggio = document.getElementById('messaggio-risposta');
 
-    document.getElementById('tracciabilita').value = tracciabilita;
-    document.getElementById('motivazione').value = motivazione;
+    // Precompila parametri da URL
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('tracciabilita').value = params.get('tracciabilita') || '';
+    document.getElementById('motivazione').value = params.get('motivazione') || '';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6LfP6ZwrAAAAAAOIOUj963SLkEci_G5NZ1HMHoiT', { action: 'submit' }).then(function (token) {
+          document.getElementById('recaptcha_token').value = token;
+
+          const formData = new FormData(form);
+
+          fetch('https://robatech-portale-assistenza.onrender.com/submit-form', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              messaggio.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+              form.reset();
+            } else {
+              messaggio.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+            }
+          })
+          .catch(() => {
+            messaggio.innerHTML = `<div class="alert alert-danger">Errore durante l'invio. Riprova più tardi.</div>`;
+          });
+        });
+      });
+    });
   </script>
 </body>
 </html>
