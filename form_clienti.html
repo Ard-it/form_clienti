@@ -12,12 +12,11 @@
     .highlight { font-weight: bold; background-color: #dcedc8; padding: 5px 10px; display: inline-block; border-radius: 5px; margin-bottom: 10px; }
     .text-danger { font-weight: 600; }
     #messaggio-risposta { margin-top: 20px; font-weight: bold; }
-
     .spinner-border {
-      width: 1rem;
-      height: 1rem;
-      margin-right: 0.5rem;
-      vertical-align: text-bottom;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-width: .2em;
+      margin-right: 8px;
     }
   </style>
 </head>
@@ -26,7 +25,6 @@
     <div class="form-container">
       <h3 class="mb-4">Modulo Richiesta Assistenza</h3>
 
-      <!-- Messaggi di risposta -->
       <div id="messaggio-risposta"></div>
 
       <form id="form-clienti" enctype="multipart/form-data">
@@ -53,13 +51,14 @@
         <div class="mb-3"><label class="form-label">Altri allegati (opzionali)</label><input type="file" name="uploads" multiple class="form-control" /></div>
         <div class="mb-3"><label class="form-label">Note</label><textarea name="note" class="form-control" rows="3" maxlength="500"></textarea></div>
 
-        <!-- Campi nascosti -->
         <input type="hidden" name="tracciabilita" id="tracciabilita" />
         <input type="hidden" name="motivazione" id="motivazione" />
         <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-success">Invia Richiesta</button>
+          <button type="submit" class="btn btn-success" id="btn-invia">
+            Invia Richiesta
+          </button>
         </div>
       </form>
     </div>
@@ -68,29 +67,17 @@
   <script>
     const form = document.getElementById('form-clienti');
     const messaggio = document.getElementById('messaggio-risposta');
-    const button = form.querySelector('button[type="submit"]');
+    const btnInvia = document.getElementById('btn-invia');
 
-    // Precompila tracciabilità e motivazione da URL
     const params = new URLSearchParams(window.location.search);
     document.getElementById('tracciabilita').value = params.get('tracciabilita') || '';
     document.getElementById('motivazione').value = params.get('motivazione') || '';
 
-    // Wake-up Render server
-    fetch('https://robatech-portale-assistenza.onrender.com/wakeup').catch(() => {
-      console.warn("Wakeup non riuscito");
-    });
-
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      // Disabilita il pulsante per evitare clic multipli
-      button.disabled = true;
-      messaggio.innerHTML = `
-        <div class="alert alert-info d-flex align-items-center">
-          <div class="spinner-border text-info" role="status"></div>
-          <div>Invio in corso, attendere...</div>
-        </div>
-      `;
+      btnInvia.disabled = true;
+      btnInvia.innerHTML = `<div class="spinner-border text-light" role="status"></div> Invio in corso, attendere...`;
 
       grecaptcha.ready(function () {
         grecaptcha.execute('6LfP6ZwrAAAAAAOIOUj963SLkEci_G5NZ1HMHoiT', { action: 'submit' }).then(function (token) {
@@ -104,6 +91,9 @@
           })
           .then(res => res.json())
           .then(data => {
+            btnInvia.disabled = false;
+            btnInvia.innerHTML = `Invia Richiesta`;
+
             if (data.success) {
               messaggio.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
               form.reset();
@@ -112,10 +102,9 @@
             }
           })
           .catch(() => {
+            btnInvia.disabled = false;
+            btnInvia.innerHTML = `Invia Richiesta`;
             messaggio.innerHTML = `<div class="alert alert-danger">Errore durante l'invio. Riprova più tardi.</div>`;
-          })
-          .finally(() => {
-            button.disabled = false;
           });
         });
       });
