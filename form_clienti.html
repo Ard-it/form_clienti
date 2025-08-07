@@ -10,7 +10,6 @@
     body { background-color: #e8f5e9; color: #1b5e20; padding: 2rem; }
     .form-container { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .highlight { font-weight: bold; background-color: #dcedc8; padding: 5px 10px; display: inline-block; border-radius: 5px; margin-bottom: 10px; }
-    .text-danger { font-weight: 600; }
     #messaggio-risposta { margin-top: 20px; font-weight: bold; }
   </style>
 </head>
@@ -19,7 +18,6 @@
     <div class="form-container">
       <h3 class="mb-4">Modulo Richiesta Assistenza</h3>
 
-      <!-- Messaggi di risposta -->
       <div id="messaggio-risposta"></div>
 
       <form id="form-clienti" enctype="multipart/form-data">
@@ -46,7 +44,6 @@
         <div class="mb-3"><label class="form-label">Altri allegati (opzionali)</label><input type="file" name="uploads" multiple class="form-control" /></div>
         <div class="mb-3"><label class="form-label">Note</label><textarea name="note" class="form-control" rows="3" maxlength="500"></textarea></div>
 
-        <!-- Campi nascosti -->
         <input type="hidden" name="tracciabilita" id="tracciabilita" />
         <input type="hidden" name="motivazione" id="motivazione" />
         <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
@@ -62,7 +59,6 @@
     const form = document.getElementById('form-clienti');
     const messaggio = document.getElementById('messaggio-risposta');
 
-    // Precompila tracciabilità e motivazione da URL
     const params = new URLSearchParams(window.location.search);
     document.getElementById('tracciabilita').value = params.get('tracciabilita') || '';
     document.getElementById('motivazione').value = params.get('motivazione') || '';
