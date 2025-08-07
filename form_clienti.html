@@ -1,113 +1,120 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Modulo Cliente - Robatech</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="https://www.google.com/recaptcha/api.js?render=6LfP6ZwrAAAAAAOIOUj963SLkEci_G5NZ1HMHoiT"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { background-color: #e8f5e9; color: #1b5e20; padding: 2rem; }
-    .form-container { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .highlight { font-weight: bold; background-color: #dcedc8; padding: 5px 10px; display: inline-block; border-radius: 5px; margin-bottom: 10px; }
-    .text-danger { font-weight: 600; }
-    #messaggio-risposta { margin-top: 20px; font-weight: bold; }
-    .spinner-border {
-      width: 1.5rem;
-      height: 1.5rem;
-      border-width: .2em;
-      margin-right: 8px;
+    body {
+      background-color: #e8f5e9;
+      color: #1b5e20;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
     }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .success { color: green; }
+    .error { color: red; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="form-container">
-      <h3 class="mb-4">Modulo Richiesta Assistenza</h3>
+  <h1>Modulo Richiesta Assistenza</h1>
 
-      <div id="messaggio-risposta"></div>
+  <form id="moduloCliente">
+    <label>Nome azienda</label>
+    <input type="text" name="azienda" required>
 
-      <form id="form-clienti" enctype="multipart/form-data">
-        <div class="mb-3"><label class="form-label">Società richiedente</label><input type="text" name="societa" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Indirizzo</label><input type="text" name="indirizzo" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Località</label><input type="text" name="localita" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Partita IVA</label><input type="text" name="piva" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Telefono</label><input type="text" name="telefono" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Referente</label><input type="text" name="referente" class="form-control" required /></div>
-        <div class="mb-3"><label class="form-label">Luogo dell’intervento (se diverso)</label><input type="text" name="luogo" class="form-control" /></div>
-        <div class="mb-3"><label class="form-label">Email del cliente (per conferma)</label><input type="email" name="emailConferma" class="form-control" required /></div>
+    <label>Contatto</label>
+    <input type="text" name="contatto" required>
 
-        <p class="highlight">Hai un contratto Robaplus?</p>
-        <p class="text-danger">In caso si ritenga che l’intervento debba essere svolto in garanzia, esso sarà svolto a titolo gratuito sulla base di quanto rilevato dal tecnico Robatech e riportato sul rapporto di intervento.</p>
+    <label>Telefono</label>
+    <input type="tel" name="telefono" required>
 
-        <div class="mb-3"><label class="form-label">Firma digitale (upload)</label><input type="file" name="firma" accept="image/*,application/pdf" class="form-control" /></div>
+    <label>Note aggiuntive</label>
+    <textarea name="note" rows="4"></textarea>
 
-        <div class="mb-3">
-          <a href="https://robatechitalia.sharepoint.com/:b:/r/sites/public/Documenti%20condivisi/SERVICE%20REQUEST%20FORM%202023_1.pdf" target="_blank" class="btn btn-outline-primary">
-            Scarica modulo da firmare e timbrare
-          </a>
-        </div>
+    <button type="submit">Invia modulo</button>
 
-        <div class="mb-3"><label class="form-label">Altri allegati (opzionali)</label><input type="file" name="uploads" multiple class="form-control" /></div>
-        <div class="mb-3"><label class="form-label">Note</label><textarea name="note" class="form-control" rows="3" maxlength="500"></textarea></div>
-
-        <input type="hidden" name="tracciabilita" id="tracciabilita" />
-        <input type="hidden" name="motivazione" id="motivazione" />
-        <input type="hidden" name="recaptcha_token" id="recaptcha_token" />
-
-        <div class="d-grid">
-          <button type="submit" class="btn btn-success" id="btn-invia">
-            Invia Richiesta
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+    <div class="output" id="output"></div>
+  </form>
 
   <script>
-    const form = document.getElementById('form-clienti');
-    const messaggio = document.getElementById('messaggio-risposta');
-    const btnInvia = document.getElementById('btn-invia');
+    const urlParams = new URLSearchParams(window.location.search);
+    const tracciabilita = urlParams.get("tracciabilita");
+    const motivazione = urlParams.get("motivazione");
 
-    const params = new URLSearchParams(window.location.search);
-    document.getElementById('tracciabilita').value = params.get('tracciabilita') || '';
-    document.getElementById('motivazione').value = params.get('motivazione') || '';
-
-    form.addEventListener('submit', function (e) {
+    document.getElementById("moduloCliente").addEventListener("submit", async function (e) {
       e.preventDefault();
+      const form = e.target;
+      const dati = {
+        tracciabilita,
+        motivazione,
+        azienda: form.azienda.value,
+        contatto: form.contatto.value,
+        telefono: form.telefono.value,
+        note: form.note.value,
+        stato: "Modulo accettato",
+        dataAccettazione: new Date().toISOString()
+      };
 
-      btnInvia.disabled = true;
-      btnInvia.innerHTML = `<div class="spinner-border text-light" role="status"></div> Invio in corso, attendere...`;
-
-      grecaptcha.ready(function () {
-        grecaptcha.execute('6LfP6ZwrAAAAAAOIOUj963SLkEci_G5NZ1HMHoiT', { action: 'submit' }).then(function (token) {
-          document.getElementById('recaptcha_token').value = token;
-
-          const formData = new FormData(form);
-
-          fetch('https://robatech-portale-assistenza.onrender.com/submit-form', {
-            method: 'POST',
-            body: formData
-          })
-          .then(res => res.json())
-          .then(data => {
-            btnInvia.disabled = false;
-            btnInvia.innerHTML = `Invia Richiesta`;
-
-            if (data.success) {
-              messaggio.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-              form.reset();
-            } else {
-              messaggio.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-            }
-          })
-          .catch(() => {
-            btnInvia.disabled = false;
-            btnInvia.innerHTML = `Invia Richiesta`;
-            messaggio.innerHTML = `<div class="alert alert-danger">Errore durante l'invio. Riprova più tardi.</div>`;
-          });
-        });
+      const res = await fetch('/aggiungi-attivita-manuale', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dati)
       });
+
+      const json = await res.json();
+      const out = document.getElementById("output");
+
+      if (json.success) {
+        out.innerHTML = `<div class="success">${json.message}</div>`;
+        form.reset();
+      } else {
+        out.innerHTML = `<div class="error">${json.message}</div>`;
+      }
     });
   </script>
 </body>
